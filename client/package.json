@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "bunx @biomejs/biome check --apply src test"
+    "format": "bunx @biomejs/biome check --apply app"
   },
   "dependencies": {
     "react": "^18",
