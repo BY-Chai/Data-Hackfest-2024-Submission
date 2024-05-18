@@ -1,6 +1,6 @@
-import Link from "next/link";
 import PathFinderLogo from "@public/pathfinder.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 interface NavBarReceive {
   loggedIn: boolean;

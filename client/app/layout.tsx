@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavBar from "./components/NavBar";
+import NavBar from "./_components/NavBar";
 
 export const metadata: Metadata = {
   title: "Welcome To PathFinder",

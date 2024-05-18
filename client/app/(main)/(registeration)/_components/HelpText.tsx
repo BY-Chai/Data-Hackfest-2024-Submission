@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-interface HelpTextReceive {
+export interface HelpTextReceive {
   before: string;
   after: string;
   linkTo: string;
@@ -8,12 +8,12 @@ interface HelpTextReceive {
 
 function HelpText({ before, after, linkTo }: HelpTextReceive) {
   return (
-    <span>
+    <p className="w-full bg-gray-200 text-center border-2 border-slate-300 py-1 rounded-lg">
       {before}{" "}
       <Link className="text-blue-700" href={linkTo}>
         {after}
       </Link>
-    </span>
+    </p>
   );
 }
 
