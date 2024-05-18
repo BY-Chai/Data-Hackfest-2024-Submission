@@ -4,7 +4,7 @@ import json
 from flask import Flask, request, jsonify
 
 
-API_KEY = "key"  # Read from a secret file
+API_KEY = dotenv_values(".env")["API_KEY"] # Read from a secret file
 
 app = Flask(__name__)
 client = ors.Client(key=API_KEY)  # Replace with your actual API key
