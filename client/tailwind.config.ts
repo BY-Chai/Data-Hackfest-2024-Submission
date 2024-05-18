@@ -15,6 +15,11 @@ const config: Config = {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /^from-/,
+    },
+  ],
   plugins: [],
 };
 export default config;
