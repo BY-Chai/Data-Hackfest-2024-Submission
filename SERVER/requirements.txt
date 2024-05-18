@@ -1,0 +1,6 @@
+# This is a list of packages to be installed for this project; all can be autoinstalled with pip -r requirements.txt -t
+# https://note.nkmk.me/en/python-pip-install-requirements/
+
+openrouteservice
+pandas
+json
