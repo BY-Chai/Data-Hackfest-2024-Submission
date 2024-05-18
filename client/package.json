@@ -1,7 +1,33 @@
 {
   "name": "pathfinder",
+  "description": "",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "homepage": "",
+  "keywords": [
+    "walk",
+    "nextjs"
+  ],
+  "contributors": [
+    {
+      "name": "Seol SO",
+      "url": "https://fivepixels.dev",
+      "email": "hi@fivepixels.dev"
+    },
+    {
+      "name": "Kushagra Agarwal",
+      "url": "https://github.com/KushagraAgarwal525",
+      "email": "kushagraagarwal525.ka@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BY-Chai/Data-Hackfest-2024-Submission/"
+  },
+  "bugs": {
+    "url": "https://github.com/BY-Chai/Data-Hackfest-2024-Submission/"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -20,8 +46,6 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "postcss": "^8",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
