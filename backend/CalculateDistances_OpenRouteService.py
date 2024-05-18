@@ -2,7 +2,7 @@ import openrouteservice as ors
 import pandas as pd
 
 # Use a secure method to handle the API key
-API_KEY = "key"  # Read from a secure location or environment variable
+API_KEY = dotenv_values(".env")["API_KEY"] # Read from a secure location or environment variable
 client = ors.Client(key=API_KEY)
 
 user_registration_data = {
