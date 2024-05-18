@@ -6,17 +6,19 @@ export const metadata: Metadata = {
   title: "Welcome To PathFinder",
 };
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-screen">
+    <html lang="en">
       <body>
         <NavBar loggedIn={false} />
-        <main className="px-5">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

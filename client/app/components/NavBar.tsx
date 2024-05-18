@@ -1,4 +1,6 @@
 import Link from "next/link";
+import PathFinderLogo from "@public/pathfinder.jpg";
+import Image from "next/image";
 
 interface NavBarReceive {
   loggedIn: boolean;
@@ -6,10 +8,16 @@ interface NavBarReceive {
 
 function NavBar({ loggedIn }: NavBarReceive) {
   return (
-    <nav className="px-5 py-2 fixed top-0 left-0 w-full flex items-center justify-between bg-transparent backdrop-blur-xl *:flex *:space-x-2 border-b-2 border-b-gray-200">
-      <div>
-        <span>LOGO!</span>
-      </div>
+    <nav className="px-5 py-2 fixed top-0 left-0 w-full flex items-center justify-between bg-transparent backdrop-blur-xl *:flex *:space-x-2 border-b border-b-slate-200">
+      <Link href="/">
+        <Image
+          src={PathFinderLogo}
+          alt="PathFinder Logo"
+          width={34}
+          height={34}
+        />
+      </Link>
+
       <div>
         <NavBarLink
           linkTo="https://github.com/BY-Chai/Data-Hackfest-2024-Submission"
