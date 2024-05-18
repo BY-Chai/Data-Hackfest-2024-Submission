@@ -4,7 +4,7 @@ import json
 from flask import Flask, request, jsonify
 
 
-API_KEY = "5b3ce3597851110001cf62487182fa1a5f524ec0b4932138e29ccd0e"  # Read from a secret file
+API_KEY = "key"  # Read from a secret file
 
 user_registration_data = {
     "user1": {
