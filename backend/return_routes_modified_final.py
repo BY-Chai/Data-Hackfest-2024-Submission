@@ -1,10 +1,9 @@
+from dotenv import dotenv_values
 import openrouteservice as ors
 import pandas as pd
-import json
 from flask import Flask, request, jsonify
 
-
-API_KEY = dotenv_values(".env")["API_KEY"] # Read from a secret file
+API_KEY = dotenv_values(".env")["API_KEY"]
 
 user_registration_data = {
     "user1": {

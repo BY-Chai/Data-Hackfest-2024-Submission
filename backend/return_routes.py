@@ -1,12 +1,8 @@
 import openrouteservice as ors
-import pandas as pd
-import json
 from flask import Flask, request, jsonify
-from dotenv import load_dotenv
-import os
+from dotenv import dotenv_values
 
-load_dotenv()  # Load environment variables from a .env file
-API_KEY = os.getenv("ORS_API_KEY")  # Securely fetch your API key from environment variables
+API_KEY = dotenv_values(".env")["API_KEY"]
 
 app = Flask(__name__)
 client = ors.Client(key=API_KEY)

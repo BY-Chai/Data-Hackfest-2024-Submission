@@ -1,8 +1,11 @@
+from dotenv import dotenv_values
 from flask import Flask, request, jsonify
 import openrouteservice
 
+API_KEY = dotenv_values(".env")["API_KEY"]
+
 app = Flask(__name__)
-client = openrouteservice.Client(key="your_api_key_here")  # Replace with your actual API key
+client = openrouteservice.Client(key=API_KEY)  # Replace with your actual API key
 
 @app.route('/forward_geocode', methods=['GET'])
 def forward_geocode():
