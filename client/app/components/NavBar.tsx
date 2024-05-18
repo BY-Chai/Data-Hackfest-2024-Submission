@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PathFinderLogo from "@public/pathfinder.jpg";
+import PathFinderLogo from "@public/pathfinder.svg";
 import Image from "next/image";
 
 interface NavBarReceive {

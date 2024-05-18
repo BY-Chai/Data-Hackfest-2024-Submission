@@ -6,7 +6,7 @@ interface NiceBackgroundReceive {
 function NiceBackground({ colour, shade }: NiceBackgroundReceive) {
   return (
     <div
-      className={`absolute top-0 left-0 w-full h-screen -z-10 bg-gradient-to-t from-${colour}-${
+      className={`fixed top-0 left-0 w-full h-screen -z-10 bg-gradient-to-t from-${colour}-${
         shade ? shade : 200
       } via-transparent to-transparent`}
     />
