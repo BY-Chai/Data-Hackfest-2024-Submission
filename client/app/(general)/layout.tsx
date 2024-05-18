@@ -6,7 +6,7 @@ function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col items-center justify-center space-y-10 px-5 pt-36">
+    <div className="flex flex-col items-center justify-center px-5 pt-48">
       <NiceBackground colour="purple" />
       {children}
     </div>
