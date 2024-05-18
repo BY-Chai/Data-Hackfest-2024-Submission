@@ -1,4 +1,4 @@
-import NiceBackground from "../components/NiceBackground";
+import NiceBackground from "../_components/NiceBackground";
 
 function RootLayout({
   children,
