@@ -8,7 +8,7 @@ export interface HelpTextReceive {
 
 function HelpText({ before, after, linkTo }: HelpTextReceive) {
   return (
-    <p className="w-full bg-gray-200 text-center border-2 border-slate-300 py-1 rounded-lg">
+    <p className="w-full text-center pt-10 pb-20">
       {before}{" "}
       <Link className="text-blue-700" href={linkTo}>
         {after}

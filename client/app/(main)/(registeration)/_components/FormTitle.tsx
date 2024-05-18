@@ -3,7 +3,7 @@ interface FormTextReceive {
 }
 
 function FormTitle({ content }: FormTextReceive) {
-  return <h1 className="font-semibold text-3xl">{content}</h1>;
+  return <h1 className="font-semibold text-3xl pb-3">{content}</h1>;
 }
 
 export default FormTitle;

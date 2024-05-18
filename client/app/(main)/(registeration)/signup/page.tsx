@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import FormTitle from "../_components/FormTitle";
 import { SignUpForm } from "../_components/SignForms";
 

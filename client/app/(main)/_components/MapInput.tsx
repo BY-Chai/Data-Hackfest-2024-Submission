@@ -1,8 +1,8 @@
 "use client";
 
-import { Ref, useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { useEffect, useRef, useState } from "react";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN as string;
@@ -17,7 +17,7 @@ type MapError = {
   access: boolean;
 };
 
-function Map({ getErrorList, getFinalLocation }: MapReceive) {
+function MapInput({ getErrorList, getFinalLocation }: MapReceive) {
   const mapContainerRef = useRef(null);
   const markerRef = useRef<mapboxgl.Marker | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -34,6 +34,7 @@ function Map({ getErrorList, getFinalLocation }: MapReceive) {
     access: true,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the canvas keeps being loaded and added every time the users click on the map
   useEffect(() => {
     if (!mapContainerRef.current) {
       return;
@@ -114,18 +115,18 @@ function Map({ getErrorList, getFinalLocation }: MapReceive) {
   useEffect(() => {
     getErrorList(errorList);
     return;
-  }, [errorList]);
+  }, [errorList, getErrorList]);
 
   useEffect(() => {
     getFinalLocation(searchedLocation);
     return;
-  }, [searchedLocation]);
+  }, [searchedLocation, getFinalLocation]);
 
   return (
     <div className="relative w-full">
       <div className="w-full">
         <input
-          className="w-full rounded-t-lg py-2 px-3 border box-border hover:border-gray-500 focus:border-gray-500 focus:outline-none"
+          className="w-full rounded-t-sm py-2 px-3 border box-border hover:border-gray-500 focus:border-gray-500 focus:outline-none"
           placeholder="Search for where you live..."
           value={searchingTerm}
           autoComplete="address-line1 webauthn"
@@ -139,36 +140,35 @@ function Map({ getErrorList, getFinalLocation }: MapReceive) {
 
         <div className="w-full relative">
           <div className="w-full absolute top-0 left-0 z-20 bg-white bg-opacity-95">
-            {searchedPlaces.map(
-              (currentSearchedPlace, currentSearchedPlaceIndex) => (
-                <div
-                  key={currentSearchedPlaceIndex}
-                  className="cursor-pointer py-2 px-3 border hover:border-gray-500 focus:border-gray-500"
-                  onClick={() => {
-                    setSearchedPlaces([]);
-                    setSearchingTerm(currentSearchedPlace.name);
-                    setSearchedLocation(currentSearchedPlace.location);
+            {searchedPlaces.map((currentSearchedPlace) => (
+              // biome-ignore lint/a11y/useKeyWithClickEvents: I mean why?
+              <div
+                key={currentSearchedPlace.name}
+                className="cursor-pointer py-2 px-3 border hover:border-gray-500 focus:border-gray-500"
+                onClick={() => {
+                  setSearchedPlaces([]);
+                  setSearchingTerm(currentSearchedPlace.name);
+                  setSearchedLocation(currentSearchedPlace.location);
 
-                    if (mapRef.current) {
-                      mapRef.current.setCenter(currentSearchedPlace.location);
-                      mapRef.current.setZoom(12);
-                    }
-                  }}>
-                  {currentSearchedPlace.name}
-                </div>
-              ),
-            )}
+                  if (mapRef.current) {
+                    mapRef.current.setCenter(currentSearchedPlace.location);
+                    mapRef.current.setZoom(12);
+                  }
+                }}>
+                {currentSearchedPlace.name}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
       <div
         ref={mapContainerRef}
-        className="transition-colors w-full aspect-video rounded-b-lg border hover:border-gray-500 focus:border-gray-500"
+        className="transition-colors w-full aspect-video rounded-b-sm border hover:border-gray-500 focus:border-gray-500"
       />
 
       {isLoading && (
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 z-20 rounded-lg flex items-center justify-center cursor-not-allowed">
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 z-20 rounded-sm flex items-center justify-center cursor-not-allowed">
           <AiOutlineLoading3Quarters
             className="animate-loading"
             size={50}
@@ -209,9 +209,9 @@ const searchPlace = async (query: string): Promise<SearchPlaceReturn> => {
     return {
       searchedPlaces: returnedValue,
     };
-  } else {
-    return { searchedPlaces: [] };
   }
+
+  return { searchedPlaces: [] };
 };
 
 const searchCoordinate = async (
@@ -236,12 +236,9 @@ const searchCoordinate = async (
     return {
       searchedPlaces: returnedValue,
     };
-
-    // map.setCenter([lng, lat]);
-    // setMarker(lng, lat);
-  } else {
-    return { searchedPlaces: [] };
   }
+
+  return { searchedPlaces: [] };
 };
 
-export default Map;
+export default MapInput;
