@@ -2,17 +2,82 @@ import os
 import pandas as pd
 from flask import Flask, request, jsonify
 import openrouteservice as ors
+import database as db
+import sqlite3
+from dotenv import dotenv_values
 
 # Securely fetch the API key from environment variables
-API_KEY = os.getenv("ORS_API_KEY")
+API_KEY = dotenv_values(".env")["API_KEY"]
 
-user_registration_data = {
-        "user1": {"city": "Toronto", "state": "Ontario", "country": "CAN"},
-        "user2": {"city": "Vancouver", "state": "British Columbia", "country": "CAN"}
-    }
+user_registration_data = {"user1": {"city": "Toronto", "state": "Ontario", "country": "CAN"},"user2": {"city": "Vancouver", "state": "British Columbia", "country": "CAN"}}
+
+#user_registration_data = {}
 
 app = Flask(__name__)
 client = ors.Client(key=API_KEY)
+
+
+@app.route('/add_user', methods=['POST', 'GET', 'CONNECT'])
+def add_user():
+    data = request.json()
+    try:
+        with db.get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO users (name, pw, city, state, country, routes) VALUES (?, ?, ?, ?, ?, ?)",
+                           (data['name'], data['pw'], data['city'], data['state'], data['country'], '{"type": "FeatureCollection", "features": []}'))
+            conn.commit()
+        return jsonify({'message': 'User added successfully'}), 201
+    except sqlite3.IntegrityError as e:
+        return jsonify({'error': 'User could not be added', 'message': str(e)}), 400
+
+@app.route('/get_routes/<name>', methods=['GET', 'CONNECT'])
+def get_routes(name):
+    try:
+        with db.get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT routes FROM users WHERE name = ?", (name,))
+            routes = cursor.fetchone()
+            if routes:
+                return jsonify({'routes': routes[0]})
+            else:
+                return jsonify({'message': 'No routes found'}), 404
+    except Exception as e:
+        return jsonify({'error': 'Error fetching routes', 'message': str(e)}), 500
+    
+@app.route('/sign_in', methods=['POST', 'CONNECT'])
+def sign_in():
+    data = request.json()
+    try:
+        with db.get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT * FROM users WHERE name = {data['name']}")
+            user = cursor.fetchone()
+            if data['pw'] != user[1]:
+                return jsonify({'error': 'Wrong password'}), 401
+            
+            # Modify backend environment variable to signed-in user's info
+            global user_registration_data
+            user_registration_data[user[0]] = {"city": user[2], "state": user[3], "country": user[4]}
+
+            return jsonify({'name': user[0], 'city': user[2], 'state': user[3], 'country': user[4]})
+    except Exception as e:
+        return jsonify({'error': 'Error signing in', 'message': str(e)}), 500
+
+
+@app.route('/list_users', methods=['POST', 'CONNECT'])
+def list_users():
+    try:
+        with db.get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT * FROM users")
+            users = cursor.fetchall()
+            return jsonify([{'name': user[0], 'city': user[2], 'state': user[3], 'country': user[4]} for user in users])
+    except Exception as e:
+        return jsonify({'error': 'Error listing users', 'message': str(e)}), 500
+
+
+
+
 
 @app.route('/forward_geocode', methods=['GET'])
 def forward_geocode():
@@ -150,8 +215,6 @@ def filter_potential_endpoints(dist_dataframe, run_distance, n_routes):
         i = low
     if round(dist_dataframe['distance'][high], -1) == run_distance:
         i = high
-    else:
-        i = mid
     
     dist_dataframe = dist_dataframe[max(i-n_routes//2, 0):min(i+n_routes//2+1, dist_dataframe.shape[0]-1)]
     dist_dataframe.reset_index(drop=True, inplace=True)
