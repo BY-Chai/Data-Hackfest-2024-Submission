@@ -1,10 +1,10 @@
-import os
+from dotenv import dotenv_values
 import pandas as pd
 from flask import Flask, request, jsonify
 import openrouteservice as ors
 
 # Securely fetch the API key from environment variables
-API_KEY = os.getenv("ORS_API_KEY")
+API_KEY = dotenv_values(".env")["API_KEY"]
 
 user_registration_data = {
         "user1": {"city": "Toronto", "state": "Ontario", "country": "CAN"},
